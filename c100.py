@@ -1,28 +1,35 @@
-class Car(object):
-     def __init__(self, name, color, company, speed_limit,gear_type):
+import os
+import shutil
 
-        self.name = name
-        self.company = company
-        self.color = color
-        self.speed_limit= speed_limit
-        self.gear_type=gear_type
+# Write the name of the directory here,
+# that needs to get sorted
+# path = '/home/rajeev/Videos'
+path = input("enter the name of the directory to be sorted :- ")
 
-     def start(self):
-        print('started')
-        
-    
-     def stop(self):
-        print('stop')
+# This will create a properly organized
+# list with all the filename that is
+# there in the directory
+list_of_files = os.listdir(path)
 
-     def accerlerator(self):
-        print('accelerating')
-    
-     def changegear(self):
+# This will go through each and every file
+for file in list_of_files:
+    name, ext = os.path.splitext(file)
 
-        print('gear changed')
+    # This is going to store the extension type
+    ext = ext[1:]
 
-        
-audi=Car("A6","red","audi","500","forward")
+    # This forces the next iteration,
+    # if it is the directory
+    if ext == '':
+        continue
 
-print(audi.changegear())
-                                                         
+    # This will move the file to the directory
+    # where the name 'ext' already exists
+    if os.path.exists(path+'/'+ext):
+       shutil.move(path+'/'+file, path+'/'+ext+'/'+file)
+
+    # This will create a new directory,
+    # if the directory does not already exist
+    else:
+        os.makedirs(path+'/'+ext)
+        shutil.move(path+'/'+file, path+'/'+ext+'/'+file)
